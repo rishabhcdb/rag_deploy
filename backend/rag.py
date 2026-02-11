@@ -14,13 +14,13 @@ from langchain_core.runnables import RunnablePassthrough
 from langchain_core.prompts import PromptTemplate
 from langchain_core.documents import Document
 
-from langchain_community.retrievers import (
-    BM25Retriever,
-    ContextualCompressionRetriever,
-    EnsembleRetriever,
-)
 
-from langchain_community.document_compressors import LLMChainExtractor
+
+#from langchain.retrievers import ContextualCompressionRetriever
+from langchain_community.retrievers import BM25Retriever
+from langchain.retrievers.ensemble import EnsembleRetriever
+
+#from langchain_community.document_compressors import LLMChainExtractor
 
 
 
