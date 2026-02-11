@@ -9,7 +9,10 @@ langchain-community==0.2.16
 langchain-openai==0.1.23
 langchain-ollama==0.1.1
 chromadb
-sentence-transformers
+onnxruntime==1.16.3
+ml-dtypes==0.3.2
+sentence-transformers==2.7.0
 unstructured[pdf]
-python-dotenv
+scipy==1.11.4
+numpy==1.26.4
 rank-bm25
