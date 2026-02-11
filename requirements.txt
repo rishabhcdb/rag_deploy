@@ -3,3 +3,14 @@ gunicorn
 python-dotenv
 pyjwt
 supabase
+streamlit
+langchain
+langchain-core
+langchain-community
+langchain-openai
+langchain-ollama
+chromadb
+sentence-transformers
+unstructured[pdf]
+python-dotenv
+rank-bm25
