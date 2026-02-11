@@ -16,7 +16,7 @@ from langchain_core.documents import Document
 
 #from langchain.retrievers import ContextualCompressionRetriever
 from langchain_community.retrievers import BM25Retriever
-from langchain_community.retrievers import EnsembleRetriever
+from langchain.retrievers import EnsembleRetriever
 
 #from langchain_community.document_compressors import LLMChainExtractor
 
