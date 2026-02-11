@@ -1,23 +1,31 @@
 import logging
 import streamlit as st
-from langchain_community.vectorstores import Chroma
-from langchain_ollama import ChatOllama
-from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain_core.output_parsers import StrOutputParser
-from langchain_core.runnables import RunnablePassthrough
-from langchain.prompts import PromptTemplate
-from langchain.vectorstores.utils import filter_complex_metadata
-from langchain.retrievers import ContextualCompressionRetriever
-from langchain.retrievers.document_compressors import LLMChainExtractor
-from unstructured.partition.pdf import partition_pdf
-from unstructured.chunking.title import chunk_by_title
-from langchain_core.documents import Document
 import tempfile
 import os
-from langchain.retrievers import BM25Retriever 
+
+from langchain_community.vectorstores import Chroma
+from langchain_community.embeddings import HuggingFaceEmbeddings
+
+from langchain_ollama import ChatOllama
+from langchain_openai import ChatOpenAI
+
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.runnables import RunnablePassthrough
+from langchain_core.prompts import PromptTemplate
+from langchain_core.documents import Document
+
+from langchain_community.retrievers import BM25Retriever
+from langchain.retrievers import ContextualCompressionRetriever
 from langchain.retrievers import EnsembleRetriever
-from dotenv import load_dotenv  # ADD THIS
-from langchain_openai import ChatOpenAI  
+from langchain.retrievers.document_compressors import LLMChainExtractor
+
+from langchain_community.vectorstores.utils import filter_complex_metadata
+
+from unstructured.partition.pdf import partition_pdf
+from unstructured.chunking.title import chunk_by_title
+
+from dotenv import load_dotenv
+
 load_dotenv() 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
