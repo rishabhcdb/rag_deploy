@@ -12,20 +12,25 @@ from backend.logger import log_qa
 import nltk
 import os
 
+import nltk
+import os
+
 NLTK_DATA_PATH = "/opt/render/nltk_data"
 os.makedirs(NLTK_DATA_PATH, exist_ok=True)
 nltk.data.path.append(NLTK_DATA_PATH)
 
-try:
-    nltk.data.find("tokenizers/punkt")
-except LookupError:
-    nltk.download("punkt", download_dir=NLTK_DATA_PATH)
+required_packages = [
+    "punkt",
+    "punkt_tab",
+    "averaged_perceptron_tagger",
+    "averaged_perceptron_tagger_eng"
+]
 
-try:
-    nltk.data.find("tokenizers/punkt_tab")
-except LookupError:
-    nltk.download("punkt_tab", download_dir=NLTK_DATA_PATH)
-
+for pkg in required_packages:
+    try:
+        nltk.data.find(pkg)
+    except LookupError:
+        nltk.download(pkg, download_dir=NLTK_DATA_PATH)
 
 
 # ⬇️ IMPORTANT CHANGE HERE
