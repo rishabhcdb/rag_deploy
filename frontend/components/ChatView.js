@@ -5,29 +5,28 @@ export default {
   template: `
     <main class="chat-page">
 
-      <!-- Sidebar toggle (mobile) -->
-      <button class="sidebar-toggle" @click="collapsed = !collapsed">
-        ☰
+      <button class="top-logout-btn" @click="logout">
+        Logout
       </button>
-      
-    
+      <!-- Single toggle button, always visible -->
+      <button class="sidebar-toggle" @click="collapsed = !collapsed" :class="{ collapsed }">☰</button>
+
       <!-- Sidebar -->
       <aside class="sidebar" :class="{ collapsed }">
-        <h2 style="margin-left: 35px;">Document</h2>
-        <button class="logout-btn" @click="logout">Logout</button>
+        <div class="sidebar-header">
+          <h2 style="position: relative; left: 5px;">Heved</h2>
+        </div>
 
         <div class="doc-card">
           <p class="doc-name">
             {{ docName || "No document uploaded" }}
           </p>
-
           <p class="doc-meta">
             Status:
             <span v-if="docStatus === 'processing'">Processing…</span>
             <span v-else-if="docStatus === 'indexed'">Indexed</span>
             <span v-else>—</span>
           </p>
-
           <p class="doc-meta">
             Questions asked: {{ questionCount }} / {{ maxQuestions }}
           </p>
@@ -44,14 +43,10 @@ export default {
             :key="i"
             :class="['message', msg.role]"
           >
-            <div class="message-content">
-              <p
-                v-for="(line, j) in msg.content.split('\\n')"
-                :key="j"
-              >
-                {{ line }}
-              </p>
-            </div>
+            <div
+              class="message-content"
+              v-html="renderMarkdown(msg.content)"
+            ></div>
           </div>
 
           <!-- Loading indicator for assistant -->
@@ -82,20 +77,43 @@ export default {
           </label>
 
           <!-- Question input -->
-          <input
-            type="text"
+          <textarea
+            ref="chatInput"
+            class="chat-textarea"
             placeholder="Ask a question about this document…"
             v-model="input"
             :disabled="docStatus !== 'indexed' || isAsking"
-          />
+            rows="1"
+            @input="autoGrow"
+            @keydown.enter.exact.prevent="send"
+            @keydown.enter.shift.stop
+          ></textarea>
 
           <button
             type="submit"
             :disabled="docStatus !== 'indexed' || isAsking"
+            
           >
-            Send
+            <svg 
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 16 16"
+              width="22"
+              height="22"
+            >
+              <path 
+                d="M8 14V3M8 3L4.5 6.5M8 3l3.5 3.5"
+                fill="none"
+                stroke="grey"
+                stroke-width="1.3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
           </button>
         </form>
+        <p class="chat-disclaimer">
+          AI can make mistakes. Check important info.
+        </p>
 
       </section>
     </main>
@@ -111,7 +129,7 @@ export default {
       docName: null,
       docStatus: "idle", // idle | processing | indexed
       questionCount: 0,
-      maxQuestions: 10,
+      maxQuestions: 50,
 
       // async flags
       isUploading: false,
@@ -193,6 +211,10 @@ export default {
       });
 
       this.input = "";
+      this.$nextTick(() => {
+        const el = this.$refs.chatInput;
+        if (el) el.style.height = "auto";
+      });
       this.isAsking = true;
       this.questionCount++;
 
@@ -246,6 +268,14 @@ export default {
       const data = await res.json();
       this.questionCount = data.questions_used;
       this.maxQuestions = data.questions_limit;
+    },
+    autoGrow(e) {
+      const el = e.target;
+      el.style.height = "auto";
+      el.style.height = Math.min(el.scrollHeight, 230) + "px";
+    },
+    renderMarkdown(text) {
+      return marked.parse(text);
     }
 
   },

@@ -36,8 +36,8 @@
 from backend.supabase_client import supabase
 from datetime import date
 
-MAX_QUESTIONS = 5
-MAX_UPLOADS = 3
+MAX_QUESTIONS = 50
+MAX_UPLOADS = 15
 
 
 def ensure_user_row(user_id):
