@@ -74,7 +74,6 @@ class ChatPDF:
             
             Always:
             - Use bullet points and short sections.
-            - Add [page X] after each bullet when page_number is available; otherwise [page ?].
             - Never invent text not in context; if missing, state “Missing from provided context.”
 
             Question: {question}
